@@ -1,0 +1,107 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh;
+    background-color: black;
+    font-size: 32px;
+    color: white;
+}
+
+.content{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    gap: 1vh;
+    background-color: rgb(218, 221, 221);
+}
+
+form > input{
+    width: 40%;
+    height:1em;
+    border-radius: 20px;
+    border: none;
+    padding: 1em;
+}
+
+form >input:focus{
+    outline: none;
+}
+
+button{
+    width: 15%;
+    height: 4%;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 1em;
+}
+
+button:hover{
+    background-color: black;
+    color: white;
+    transition-duration: 1s;
+}
+
+#start_pos{
+    margin-bottom: 8%;
+}
+
+#end_pos{
+    margin-bottom: 3%;
+}
+
+.main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 1em;
+    background-color: whitesmoke;
+}
+
+.chessboard{
+    display: flex;
+    flex-wrap: wrap;
+    width: 560px;
+    height: 560px;
+    border: 2px black solid;
+}
+
+.white{
+    height: 70px;
+    width: 70px;
+    background-color: white;
+}
+
+.black{
+    height: 70px;
+    width: 70px;
+    background-color: black;
+}
+
+.highlighted{
+    background-color:rgb(255, 0, 0, 0.9);
+    transition: 1s;
+}
