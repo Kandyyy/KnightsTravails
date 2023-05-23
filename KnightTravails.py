@@ -5,6 +5,7 @@ def MinimumMoves(start, end):
     queue = deque()
     visited_nodes = []
     distance = {}
+    parent = {}
     distance[start] = 0
     
     queue.append(start)
@@ -12,15 +13,25 @@ def MinimumMoves(start, end):
     while queue:
         curr_node = queue.popleft()
         if curr_node == end:
-            return distance[curr_node]
+            return distance[curr_node], get_route(start=start, end=end, parent_node=parent)
         possible_moves = get_valid_moves(curr=curr_node)
         for move in possible_moves:
             if move not in visited_nodes:
                 queue.append(move)
                 visited_nodes.append(move)
                 distance[move] = distance[curr_node] + 1
+                parent[move] = curr_node
 
-    return 
+    return "Can't go to that square!"
+
+def get_route(start, end, parent_node):
+    curr_node = end
+    route = []
+    while curr_node != start:
+        route.append(curr_node) 
+        curr_node = parent_node[curr_node]
+
+    return route[::-1]
 
 def get_valid_moves(curr):
     
@@ -46,6 +57,18 @@ def get_valid_moves(curr):
     return valid_moves
 
 start = (0,0)
-end = (3,1)
+end = (7,7)
 
-print(MinimumMoves(start, end))
+def convert_to_chess_notation(coords):
+    letters = ["a", "b", "c", "d", "e", "f","g","h"]
+    return f"{letters[coords[0]]}{coords[1]+1}"
+
+minimum_moves_required = MinimumMoves(start,end)[0]
+path = MinimumMoves(start,end)[1]
+
+
+print(f"The minimum number of knight hops required: {minimum_moves_required}")
+print("The path taken by the knight is: ")
+for i in range(len(path)):
+    print(convert_to_chess_notation(path[i]), end=" -> ")
+print("DESTINATION REACHED")
