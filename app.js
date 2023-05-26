@@ -40,6 +40,37 @@ function highlight_moves(e){
 
 //LOGIC
 
+/**
+ * 
+ * @param {number[]}start
+ * @param {number[]}end
+ */
+
+function MinimumMoves(start, end){
+    let queue = [];
+    let visited_nodes = [];
+    let distance = {};
+    distance[start] = 0;
+    queue.push(start);
+    visited_nodes.push(start);
+    while(queue.length > 0){
+        let curr_node = queue.shift();
+        if(JSON.stringify(curr_node) === JSON.stringify(end)){
+            return distance[curr_node];
+        }
+        let possible_moves = get_valid_moves(curr_node);
+        for (let i = 0; i < possible_moves.length; i++) {
+            let move = possible_moves[i];
+            if(!visited_nodes.some(elem =>{ return JSON.stringify(move) === JSON.stringify(elem);})){
+                queue.push(move);
+                visited_nodes.push(curr_node);
+                distance[move] = distance[curr_node]+1;
+            }
+        }        
+    }
+    return "Can't go to that square!";
+}
+
  /**
  *   @param {number[]} coords 
  */
@@ -88,3 +119,4 @@ function get_valid_moves(curr){
 }
 
 create_chessboard();
+console.log(MinimumMoves([0,0], [7,7]));
