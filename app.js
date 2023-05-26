@@ -50,25 +50,42 @@ function MinimumMoves(start, end){
     let queue = [];
     let visited_nodes = [];
     let distance = {};
+    let parent = {};
     distance[start] = 0;
     queue.push(start);
     visited_nodes.push(start);
     while(queue.length > 0){
         let curr_node = queue.shift();
         if(JSON.stringify(curr_node) === JSON.stringify(end)){
-            return distance[curr_node];
+            return [distance[curr_node], get_route(start, end, parent)];
         }
         let possible_moves = get_valid_moves(curr_node);
         for (let i = 0; i < possible_moves.length; i++) {
             let move = possible_moves[i];
             if(!visited_nodes.some(elem =>{ return JSON.stringify(move) === JSON.stringify(elem);})){
                 queue.push(move);
-                visited_nodes.push(curr_node);
+                visited_nodes.push(move);
                 distance[move] = distance[curr_node]+1;
+                parent[move] = curr_node;
             }
         }        
     }
-    return "Can't go to that square!";
+    return "None";
+}
+
+/**
+ * @param {number[]} start
+ * @param {number[]} end
+ * @param {number{}} parent_node
+ */
+function get_route(start, end, parent_node){
+    let curr_node = end;
+    let route = [];
+    while(JSON.stringify(curr_node) != JSON.stringify(start)){
+        route.push(curr_node);
+        curr_node = parent_node[curr_node];
+    }
+    return route.reverse();
 }
 
  /**
@@ -119,4 +136,4 @@ function get_valid_moves(curr){
 }
 
 create_chessboard();
-console.log(MinimumMoves([0,0], [7,7]));
+console.log(MinimumMoves([0,0], [7,7])[1]);
