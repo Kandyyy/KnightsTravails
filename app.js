@@ -3,23 +3,42 @@ const chessboard = document.querySelector(".chessboard");
 const form = document.querySelector("form");
 const start_pos = document.querySelector("#start_pos");
 const end_pos = document.querySelector("#end_pos");
+const result_div = document.querySelector(".result");
+const knight = document.createElement("img");
+knight.src = "knight.png";
 
-document.addEventListener("click", highlight_moves);
 
 form.addEventListener("submit", (e)=>{
     e.preventDefault();
+    let a = start_pos.value;
+    let b = end_pos.value
     let coords_start = convert_to_matrix_notation(start_pos.value);
     let coords_end = convert_to_matrix_notation(end_pos.value);
     start_pos.value = "";
     end_pos.value = "";
-    console.log(coords_start);
-    console.log(coords_end);
+    let start_point = document.getElementById(coords_start[0]+"_"+coords_start[1]);
+    let end_point = document.getElementById(coords_end[0]+"_"+coords_end[1]);
+    try {
+        start_point.classList.add("starting_pos");
+        end_point.classList.add("ending_pos");
+    } catch (error) {
+        alert("Enter correct coordinates bruh");
+        return;
+    }
+    start_point.appendChild(knight);
+    let result = MinimumMoves(coords_start, coords_end);
+    result_div.textContent = "The knight took " + result[0] + " moves to go from " + a +" to " + b;
+    for (let i = 0; i < result[1].length; i++) {
+        highlight_move(result[1][i]);
+    }
+
 });
 
 function create_chessboard(){
     for (let i = 0; i < 8; i++) {
         for (let j = 0; j < 8; j++) {
             const square = document.createElement("div");
+            square.id = j+"_"+(i-7)*-1;
             if ((i+j)%2==0) {
                 square.classList.add("white")
             }
@@ -31,12 +50,13 @@ function create_chessboard(){
     }    
 }
 
-function highlight_moves(e){
-    if (e.target.classList.contains("white") || e.target.classList.contains("black") ) {
-        e.target.classList.add("highlighted");
-    }
+/**
+ * @param {number[]}route
+ */
+function highlight_move(square){
+    let pos = document.getElementById(square[0]+"_"+square[1]);
+    pos.classList.add("highlighted");
 }
-
 
 //LOGIC
 
@@ -136,4 +156,3 @@ function get_valid_moves(curr){
 }
 
 create_chessboard();
-console.log(MinimumMoves([0,0], [7,7])[1]);
