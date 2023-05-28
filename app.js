@@ -32,6 +32,16 @@ form.addEventListener("submit", (e)=>{
         highlight_move(result[1][i]);
     }
 
+    //TO MOVE THE CHESS PIECE ACROSS THE BOARD
+    let i = 0;
+    const x = setInterval(()=>{
+        if (i==result[1].length-1) {
+            clearInterval(x);
+        }
+        let square = document.getElementById(result[1][i][0]+"_"+result[1][i][1]);
+        square.appendChild(knight);
+        i++;
+    },1000);
 });
 
 function create_chessboard(){
