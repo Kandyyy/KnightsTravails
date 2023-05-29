@@ -74,6 +74,7 @@ button:hover{
 
 .main{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -133,4 +134,17 @@ img{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    align-self: center;
+}
+
+.footer > a{
+    text-decoration: underline;
+    color: inherit;
 }

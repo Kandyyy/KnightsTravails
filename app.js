@@ -7,6 +7,7 @@ const result_div = document.querySelector(".result");
 const knight = document.createElement("img");
 knight.src = "knight.png";
 
+let highlight_moves = [];    
 
 form.addEventListener("submit", (e)=>{
     e.preventDefault();
@@ -16,8 +17,9 @@ form.addEventListener("submit", (e)=>{
     let coords_end = convert_to_matrix_notation(end_pos.value);
     start_pos.value = "";
     end_pos.value = "";
-    let start_point = document.getElementById(coords_start[0]+"_"+coords_start[1]);
-    let end_point = document.getElementById(coords_end[0]+"_"+coords_end[1]);
+    let start_point = document.getElementById(coords_start[0]+"_"+coords_start[1]);  //RESET
+    let end_point = document.getElementById(coords_end[0]+"_"+coords_end[1]);        //RESET
+    reset_board(start_point, end_point, highlight_moves);
     try {
         start_point.classList.add("starting_pos");
         end_point.classList.add("ending_pos");
@@ -31,7 +33,6 @@ form.addEventListener("submit", (e)=>{
     for (let i = 0; i < result[1].length; i++) {
         highlight_move(result[1][i]);
     }
-
     //TO MOVE THE CHESS PIECE ACROSS THE BOARD
     let i = 0;
     const x = setInterval(()=>{
@@ -43,6 +44,26 @@ form.addEventListener("submit", (e)=>{
         i++;
     },1000);
 });
+
+/**
+ * 
+ * @param {HTMLDivElement} start_point 
+ * @param {HTMLDivElement} end_point 
+ * @param {HTMLDivElement[]} moves 
+ */
+function reset_board(start_point, end_point, moves){
+    for (let i = 0; i < chessboard.childNodes.length; i++) {
+        if (chessboard.childNodes[i].classList.contains("starting_pos")){
+            chessboard.childNodes[i].classList.remove("starting_pos");
+        }
+        else if(chessboard.childNodes[i].classList.contains("ending_pos")){
+            chessboard.childNodes[i].classList.remove("ending_pos")
+        }
+    } 
+    for (let i = 0; i < moves.length; i++) {
+        moves[i].classList.remove("highlighted");
+    }
+}
 
 function create_chessboard(){
     for (let i = 0; i < 8; i++) {
@@ -60,11 +81,14 @@ function create_chessboard(){
     }    
 }
 
+
+
 /**
  * @param {number[]}route
  */
 function highlight_move(square){
     let pos = document.getElementById(square[0]+"_"+square[1]);
+    highlight_moves.push(pos);
     pos.classList.add("highlighted");
 }
 
